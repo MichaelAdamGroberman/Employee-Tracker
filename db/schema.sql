@@ -12,7 +12,7 @@ CREATE TABLE department (
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(30) NOT NULL
 );
-
+-- create TABLE for role data; include:[id,title,salary,department_id, FOREIGN KEY]
 CREATE TABLE role (
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     title VARCHAR(30) NOT NULL,
@@ -22,7 +22,7 @@ CREATE TABLE role (
     SET
         NULL
 );
-
+-- create table to store employee data; include: [id,first_name,last_name,role_id, manager_id, and a foreign key]
 CREATE TABLE employee (
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     firt_name VARCHAR(30) NOT NULL,
