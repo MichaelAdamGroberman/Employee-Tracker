@@ -3,6 +3,8 @@ const inquirer = require('inquirer');
 const chalk = require('chalk');
 require('console.table');
 
+const line = '-'.repeat(process.stdout.columns);
+
 connection.connect((err) => {
   if (err) throw err;
   console.log('Successfully connected to MYSQL Server!');
@@ -58,3 +60,28 @@ const main = () => {
       }
     });
 };
+
+// View all Departments
+const viewAllDepartments = () => {
+  const sql = `SELECT department.id AS id, department.department_name AS department FROM department`;
+  connection.promise().query(sql, (error, response) => {
+    if (error) throw error;
+    console.clear();
+    console.log(chalk.blue.bold('Departments'));
+    console.log(response);
+    console.log(line);
+    main();
+  });
+};
+
+// View all Roles
+
+// View all Employees
+
+// Add new Department
+
+// Add new Role
+
+// Add new Employee
+
+// Update existing employee
