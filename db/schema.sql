@@ -18,7 +18,8 @@ CREATE TABLE roles (
     title VARCHAR(30),
     salary DECIMAL(8,2),
     department_id INT,
-    FOREIGN KEY (department_id) REFERENCES departments(id)
+    FOREIGN KEY (department_id) REFERENCES departments(id),
+    ON DELETE CASCADE
 );
 -- create table to store employee data; include: [id,first_name,last_name,role_id, manager_id, and a foreign key]
 CREATE TABLE employees (
@@ -29,4 +30,5 @@ CREATE TABLE employees (
     FOREIGN KEY (manager_id) REFERENCES employees(id),
     role_id INT, 
     FOREIGN KEY (role_id) REFERENCES roles(id)
+    ON DELETE CASCADE
 );
