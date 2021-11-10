@@ -1,16 +1,27 @@
-const connection = require('./config/connection');
 const inquirer = require('inquirer');
 const chalk = require('chalk');
 require('console.table');
-
+const express = require('express');
+const mysql = require('mysql2');
 const line = '-'.repeat(process.stdout.columns);
+const app = express();
+const PORT = process.env.PORT || 3001;
 
-connection.connect((err) => {
-  if (err) throw error;
-  console.log('Successfully connected to MYSQL Server!');
-  console.log(chalk.blueBright.bold('Employee Tracker'));
-  console.log(chalk.blueBright.italic('Developed by Michael Adam Groberman'));
-  main();
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
+
+const sql = mysql.createConnection(
+  {
+    host: 'localhost',
+    user: 'root',
+    password: 'r00t!p@s$',
+    database: 'employee_tracker',
+  },
+  console.log('Successfully connected to MYSQL Server!')
+);
+
+app.use((req, res) => {
+  res.status(404).end();
 });
 
 const main = () => {
@@ -144,3 +155,6 @@ const addRole = () => {};
 const addEmployee = () => {};
 // Update existing employee
 const updateEmployee = () => {};
+
+main();
+app.listen(PORT, () => {});
