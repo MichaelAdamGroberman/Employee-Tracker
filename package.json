@@ -1,0 +1,26 @@
+{
+    "name": "Employee-Tracker",
+    "version": "1.0.0",
+    "description": "CLI based Employee Tracker using node, inquirer, and MySQL",
+    "main": "index.js",
+    "scripts": {
+        "start": "node index.js",
+        "seed": "mysql db/employee_tracker.db < db/seeds.sql"
+      },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/MichaelAdamGroberman/employee-tracker.git"
+      },
+    "author": "Michael Adam Groberman",
+    "license": "MIT",
+    "dependencies": {
+        "chalk": "^4.0.0",
+        "console.table": "^0.10.0",
+        "dotenv": "^8.2.0",
+        "express": "^4.17.1",
+        "figlet": "^1.4.0",
+        "inquirer": "^7.1.0",
+        "mysql2": "^2.1.0",
+        "nodemon": "^2.0.4"
+    }
+}
