@@ -10,7 +10,7 @@ const PORT = process.env.PORT || 3001;
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
-const sql = mysql.createConnection(
+const connection = mysql.createConnection(
   {
     host: 'localhost',
     user: 'root',
@@ -20,7 +20,7 @@ const sql = mysql.createConnection(
   console.log('Successfully connected to MYSQL Server!')
 );
 
-app.use((req, res) => {
+app.use((request, response) => {
   res.status(404).end();
 });
 
@@ -47,7 +47,7 @@ const main = () => {
       },
     ])
     .then((answer) => {
-      let choices = answer.options;
+      let choices = answer.mainMenu;
       switch (choices) {
         case 'View All Departments':
           viewAllDepartments();
@@ -90,7 +90,7 @@ const main = () => {
 
 // View all Departments
 const viewAllDepartments = () => {
-  const sql = `SELECT * FROM DEPARTMENT`;
+  let sql = `SELECT * FROM DEPARTMENTS`;
   connection.query(sql, (error, response) => {
     if (error) throw error;
     console.clear();
@@ -103,7 +103,7 @@ const viewAllDepartments = () => {
 
 // View all Roles
 const viewAllRoles = () => {
-  const sql = `SELECT role.id, role.title, department.name FROM role INNER JOIN department ON role.department_id`;
+  let sql = `SELECT roles.id, roles.title, departments.name FROM roles INNER JOIN departments ON roles.department_id = departments.id`;
   connection.query(sql, (error, response) => {
     if (error) throw error;
     console.clear();
@@ -115,16 +115,7 @@ const viewAllRoles = () => {
 };
 // View all Employees
 const viewAllEmployees = () => {
-  let sql = `SELECT employee.id, 
-                  employee.first_name, 
-                  employee.last_name, 
-                  role.title, 
-                  department.department_name AS 'department', 
-                  role.salary
-                  FROM employee, role, department 
-                  WHERE department.id = role.department_id 
-                  AND role.id = employee.role_id
-                  ORDER BY employee.id ASC`;
+  let sql = `SELECT employees.id, employees.first_name, employees.last_name, roles.title, department_id AS 'department', roles.salary FROM employees, roles, departments WHERE departments.id = roles.department_id AND roles.id = employees.role_id ORDER BY employees.id ASC`;
   connection.query(sql, (error, response) => {
     if (error) throw error;
     console.clear();
@@ -137,18 +128,20 @@ const viewAllEmployees = () => {
 
 // Add new Department
 const addDepartment = () => {
+  console.clear();
+  console.log(chalk.blue.bold('Adding New Department'));
   inquirer
     .prompt([
       {
         name: 'newDepartment',
         type: 'input',
         message: 'What is the Department Name?',
-        validate: validate.validateString,
       },
     ])
     .then((answer) => {
-      let sql = `INSERT INTO department (department_name) VALUES (?)`;
-      connection.query(sql, answer.newDepartment, (error, response) => {
+      const depName = answer.newDepartment;
+      let sql = `INSERT INTO departments (departments_name) VALUES (?)`;
+      connection.query(sql, answer.departmentName, (error, response) => {
         if (error) throw error;
         console.log(
           chalk.brightGreen(
