@@ -25,7 +25,10 @@ app.use((req, res) => {
 });
 
 const main = () => {
-  inquirer
+  console.log(chalk.blueBright.bold('Employee Tracker'));
+  console.log(chalk.blueBright.italic('Developed by Michael Adam Groberman'));
+  console.log(line);
+  return inquirer
     .prompt([
       {
         name: 'mainMenu',
@@ -44,30 +47,43 @@ const main = () => {
       },
     ])
     .then((answer) => {
-      const { choice } = answer;
-      if (choice === 'View All Departments') {
-        viewAllDepartments();
+      let choices = answer.options;
+      switch (choices) {
+        case 'View All Departments':
+          viewAllDepartments();
+          break;
+
+        case 'View All Roles':
+          viewAllRoles();
+          break;
+
+        case 'View All Employees':
+          viewAllEmployees();
+          break;
+
+        case 'Add a New Department':
+          addDepartment();
+          break;
+
+        case 'Add a New Role':
+          addRole();
+          break;
+
+        case 'Add a New Employee':
+          addEmployee();
+          break;
+
+        case 'Updating Existing Employee':
+          updateEmployee();
+          break;
+
+        case 'Quit':
+          connection.end();
       }
-      if (choice === 'View All Roles') {
-        viewAllRoles();
-      }
-      if (choice === 'View All Employees') {
-        viewAllEmployees();
-      }
-      if (choice === 'Add a New Department') {
-        addDepartment();
-      }
-      if (choice === 'Add a New Role') {
-        addRole();
-      }
-      if (choice === 'Add a New Employee') {
-        addEmployee();
-      }
-      if (choice === 'Updating Existing Employee') {
-        updateEmployee();
-      }
-      if (choice === 'Quit') {
-        connection.end();
+    })
+    .catch((err) => {
+      if (err) {
+        console.log(err);
       }
     });
 };
@@ -157,4 +173,3 @@ const addEmployee = () => {};
 const updateEmployee = () => {};
 
 main();
-app.listen(PORT, () => {});
