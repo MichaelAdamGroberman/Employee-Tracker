@@ -136,21 +136,17 @@ const addDepartment = () => {
   inquirer
     .prompt([
       {
-        name: 'newDepartment',
+        name: 'department',
         type: 'input',
         message: 'What is the Department Name?',
       },
     ])
     .then((answer) => {
-      const depName = answer.newDepartment;
-      let sql = `INSERT INTO department (department_name) VALUES (?)`;
-      connection.query(sql, answer.departmentName, (error, response) => {
+      const department = answer.department;
+      let sql = `INSERT INTO department (name) VALUES ("${department}")`;
+      connection.query(sql, answer, (error, response) => {
         if (error) throw error;
-        console.log(
-          chalk.brightGreen(
-            answer.newDepartment + ` Department created successfully!`
-          )
-        );
+        console.log(`${answer}` + ` department created successfully!`);
         console.log(line);
         viewAllDepartments();
       });
