@@ -182,14 +182,56 @@ const addRole = () => {
       let sql = `INSERT INTO role (title, salary, department_id) VALUES ("${title}", "${salary}", "${departmentID}")`;
       connection.query(sql, answer, (error, response) => {
         if (error) throw error;
-        console.log(`${answer}` + ` department created successfully!`);
+        console.log(`${answer.title}` + ` department created successfully!`);
         console.log(line);
         viewAllDepartments();
       });
     });
 };
 // Add new Employee
-const addEmployee = () => {};
+const addEmployee = () => {
+  console.clear();
+  console.log(chalk.blue.bold('Adding New Employee'));
+  console.log(line);
+  inquirer
+    .prompt([
+      {
+        name: 'firstName',
+        type: 'input',
+        message: "What is Employee's First Name?",
+      },
+      {
+        name: 'lastName',
+        type: 'input',
+        message: "What is Employee's Last Name?",
+      },
+      {
+        name: 'roleID',
+        type: 'input',
+        message: "What is the employee's role ID?",
+      },
+      {
+        name: 'managerID',
+        type: 'input',
+        message: "What is the ID of the employee's manager?",
+      },
+    ])
+    .then((answer) => {
+      const firstName = answer.firstName;
+      const lastName = answer.lastName;
+      const roleID = answer.roleID;
+      const managerID = answer.managerID;
+      let sql = `INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUE ("${firstName}}", "${lastName}", "${roleID}","${managerID}")`;
+      connection.query(sql, answer, (error, response) => {
+        if (error) throw error;
+        console.log(answer);
+        console.log('Employee added to the company database successfully!');
+        console.log(line);
+        viewAllEmployees();
+      });
+    });
+};
+
 // Update existing employee
 const updateEmployee = () => {};
 
