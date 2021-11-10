@@ -90,11 +90,12 @@ const main = () => {
 
 // View all Departments
 const viewAllDepartments = () => {
-  let sql = `SELECT * FROM DEPARTMENTS`;
+  let sql = `SELECT * FROM DEPARTMENT`;
   connection.query(sql, (error, response) => {
     if (error) throw error;
     console.clear();
     console.log(chalk.blue.bold('Departments'));
+    console.log(line);
     console.table(response);
     console.log(line);
     main();
@@ -103,7 +104,7 @@ const viewAllDepartments = () => {
 
 // View all Roles
 const viewAllRoles = () => {
-  let sql = `SELECT roles.id, roles.title, departments.name FROM roles INNER JOIN departments ON roles.department_id = departments.id`;
+  let sql = `SELECT role.id, role.title, department.name FROM role INNER JOIN department ON role.department_id = department.id`;
   connection.query(sql, (error, response) => {
     if (error) throw error;
     console.clear();
@@ -115,11 +116,12 @@ const viewAllRoles = () => {
 };
 // View all Employees
 const viewAllEmployees = () => {
-  let sql = `SELECT employees.id, employees.first_name, employees.last_name, roles.title, department_id AS 'department', roles.salary FROM employees, roles, departments WHERE departments.id = roles.department_id AND roles.id = employees.role_id ORDER BY employees.id ASC`;
+  let sql = `SELECT employee.id, employee.first_name, employee.last_name, role.title, department_id AS 'department', role.salary FROM employee, role, department WHERE department.id = role.department_id AND role.id = employee.role_id ORDER BY employee.id ASC`;
   connection.query(sql, (error, response) => {
     if (error) throw error;
     console.clear();
     console.log(chalk.blue.bold('.... viewing all Employees'));
+    console.log(line);
     console.table(response);
     console.log(line);
     main();
@@ -130,6 +132,7 @@ const viewAllEmployees = () => {
 const addDepartment = () => {
   console.clear();
   console.log(chalk.blue.bold('Adding New Department'));
+  console.log(line);
   inquirer
     .prompt([
       {
@@ -140,7 +143,7 @@ const addDepartment = () => {
     ])
     .then((answer) => {
       const depName = answer.newDepartment;
-      let sql = `INSERT INTO departments (departments_name) VALUES (?)`;
+      let sql = `INSERT INTO department (department_name) VALUES (?)`;
       connection.query(sql, answer.departmentName, (error, response) => {
         if (error) throw error;
         console.log(
