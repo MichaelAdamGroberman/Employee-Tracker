@@ -91,7 +91,7 @@ const main = () => {
 // View all Departments
 const viewAllDepartments = () => {
   const sql = `SELECT * FROM DEPARTMENT`;
-  connection.promise().query(sql, (error, response) => {
+  connection.query(sql, (error, response) => {
     if (error) throw error;
     console.clear();
     console.log(chalk.blue.bold('Departments'));
@@ -104,7 +104,7 @@ const viewAllDepartments = () => {
 // View all Roles
 const viewAllRoles = () => {
   const sql = `SELECT role.id, role.title, department.name FROM role INNER JOIN department ON role.department_id`;
-  connection.promise().query(sql, (error, response) => {
+  connection.query(sql, (error, response) => {
     if (error) throw error;
     console.clear();
     console.log(chalk.blue.bold('.... viewing all Company Roles'));
@@ -125,7 +125,7 @@ const viewAllEmployees = () => {
                   WHERE department.id = role.department_id 
                   AND role.id = employee.role_id
                   ORDER BY employee.id ASC`;
-  connection.promise().query(sql, (error, response) => {
+  connection.query(sql, (error, response) => {
     if (error) throw error;
     console.clear();
     console.log(chalk.blue.bold('.... viewing all Employees'));
