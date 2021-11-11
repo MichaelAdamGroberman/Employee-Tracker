@@ -104,7 +104,7 @@ const viewAllDepartments = () => {
 
 // View all Roles
 const viewAllRoles = () => {
-  let sql = `SELECT role.id, role.title, department.name FROM role INNER JOIN department ON role.department_id = department.id`;
+  let sql = `SELECT role.id, role.title, department.name, role.salary FROM role INNER JOIN department ON role.department_id = department.id`;
   connection.query(sql, (error, response) => {
     if (error) throw error;
     console.clear();
@@ -232,10 +232,41 @@ const addEmployee = () => {
     });
 };
 main();
-// Update existing employee
-// const updateEmployeeRole = () => {
-//   let sql = `SELECT employee.id, employee.first_name, employee.last_name, role.id AS "role_id"
-//                     FROM employee, role, department WHERE department.id = role.department_id AND role.id = employee.role_id`;
+
+// // Update existing employee
+//   const updateEmployeeRole = () => {
+//     let sqlSelectEmployee = `SELECT employee.id, employee.first_name, employee.last_name, role.title, department_id AS 'department', role.salary FROM employee, role, department WHERE department.id = role.department_id AND role.id = employee.role_id ORDER BY employee.id ASC`;
+//   connection.query(sqlSelectEmployee, (error, response) => {
+//     if (error) throw error;
+//     let employeeList = [];
+//     response.forEach(employee => {
+//       employeeList.push(`${employee.id}` `${employee.first_name}` `${employee.last_name}`)
+//     )}
+//   }
+//     let sqlSelectRole = `SELECT role.id, role.title, department.name, role.salary FROM role INNER JOIN department ON role.department_id = department.id`;
+
+//     console.clear();
+//     console.log(chalk.blue.bold('All Employees'));
+//     console.log(line);
+//     console.table(response);
+//     console.log(line);
+//   });
+//   inquirer.prompt([
+//     {
+//       name: 'selectEmployee',
+//       type: 'list',
+//       message: 'Select Employee to update their role:',
+//       choices: employeeList
+//     },
+// };
+//     {
+//       name: 'selectRole',
+//       type: 'list',
+//       message: 'Select new Role to update for Employee',
+//       choices: rolesList
+//     }
+//     ])
+//   }
 //   connection.query(sql, function (err,res) {
 //     if (err) throw err;
 //     let employeeList = [];
@@ -248,20 +279,6 @@ main();
 //       let rolesList = [];
 //       response.forEach(role => {rolesList.push(role.title); });
 
-// inquirer.prompt([
-//   {
-//     name: 'selectEmployee',
-//     type: 'list',
-//     message: 'Select Employee to update their role:',
-//     choices: employeeList
-//   },
-//   {
-//     name: 'selectRole',
-//     type: 'list',
-//     message: 'Select new Role to update for Employee',
-//     choices: rolesList
-//   }
-// ])
 // .then(answer => {
 //   let selectRole, selectEmployee;
 //   response.forEach((role) => {
