@@ -231,58 +231,55 @@ const addEmployee = () => {
       });
     });
 };
-
+main();
 // Update existing employee
-const updateEmployeeRole = () => {
-  let sql = `SELECT employee.id, employee.first_name, employee.last_name, role.id AS "role_id"
-                    FROM employee, role, department WHERE department.id = role.department_id AND role.id = employee.role_id`;
-  connection.query(sql, function (err,res) {
-    if (err) throw err;
-    let employeeList = [];
-    response.forEach(employee => {
-      employeeList.push(`${employee.id}` `${employee.first_name}` `${employee.last_name}`);
-    });
-    let sql = `SELECT role.id, role.title FROM role`;
-    connection.query(sql, function(err,res){
-      if (err) throw err;
-      let rolesList = [];
-      response.forEach(role => {rolesList.push(role.title); });
-    
-    inquirer.prompt([
-      {
-        name: 'selectEmployee',
-        type: 'list',
-        message: 'Select Employee to update their role:',
-        choices: employeeList
-      },
-      {
-        name: 'selectRole',
-        type: 'list',
-        message: 'Select new Role to update for Employee',
-        choices: rolesList
-      }
-    ])
-    .then(answer => {
-      let selectRole, selectEmployee;
-      response.forEach((role) => {
-        if (answer.selectRole === role.title) {
-            newRoleID = role.id;
-        }
-    });
+// const updateEmployeeRole = () => {
+//   let sql = `SELECT employee.id, employee.first_name, employee.last_name, role.id AS "role_id"
+//                     FROM employee, role, department WHERE department.id = role.department_id AND role.id = employee.role_id`;
+//   connection.query(sql, function (err,res) {
+//     if (err) throw err;
+//     let employeeList = [];
+//     response.forEach(employee => {
+//       employeeList.push(`${employee.id}` `${employee.first_name}` `${employee.last_name}`);
+//     });
+//     let sql = `SELECT role.id, role.title FROM role`;
+//     connection.query(sql, function(err,res){
+//       if (err) throw err;
+//       let rolesList = [];
+//       response.forEach(role => {rolesList.push(role.title); });
 
-    response.forEach(employee => {
-        if (answer.selectEmployee === `${employee.first_name} ${employee.last_name}`
-        ) { selectEmployee = employee.id;
-        }
-    });
-    let sql = `UPDATE employee SET employee.role_id = ? WHERE employee.id = ?`;
-    connection.query(sql, [selectRole,selectEmployee], (err) => {
-      if (err) throw err;
-      console.log(line);
-      console.log("Employee's Role updated successfully");
-      console.log(line);
-      main();
-    }
-    );
-    
-    
+// inquirer.prompt([
+//   {
+//     name: 'selectEmployee',
+//     type: 'list',
+//     message: 'Select Employee to update their role:',
+//     choices: employeeList
+//   },
+//   {
+//     name: 'selectRole',
+//     type: 'list',
+//     message: 'Select new Role to update for Employee',
+//     choices: rolesList
+//   }
+// ])
+// .then(answer => {
+//   let selectRole, selectEmployee;
+//   response.forEach((role) => {
+//     if (answer.selectRole === role.title) {
+//         newRoleID = role.id;
+//     }
+// });
+
+// response.forEach(employee => {
+//     if (answer.selectEmployee === `${employee.first_name} ${employee.last_name}`) {
+//     selectEmployee = employee.id }
+// });
+// let sql = `UPDATE employee SET employee.role_id = ? WHERE employee.id = ?`;
+// connection.query(sql, [selectRole,selectEmployee], (err) => {
+//   if (err) throw err;
+//   console.log(line);
+//   console.log("Employee's Role updated successfully");
+//   console.log(line);
+//   main();
+// }
+// );
