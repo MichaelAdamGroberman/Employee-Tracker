@@ -2,7 +2,7 @@ const inquirer = require('inquirer');
 const chalk = require('chalk');
 require('console.table');
 const express = require('express');
-const mysql = require('mysql2');
+const mysql = require('mysql2/promise');
 const line = '-'.repeat(process.stdout.columns);
 const app = express();
 const PORT = process.env.PORT || 3001;
