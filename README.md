@@ -18,8 +18,8 @@ The application gives yout the following options:
 ---
 
 1. Run `npm install` to install all dependencies
-2. Intall and run MySQL, then Source the db/schema.sql` file to mysql. To do this, run mysql in your terminal. Then run 'source db/schema'. This creates the database and tables required in mysql.
-   - (Optional) Run `npm run seeds` in your terminal to populate the database with test data.
+2. Intall and run MySQL, then Source the `db/schema.sql` file to mysql. To do this, run mysql in your terminal. Then run 'source db/schema'. This creates the database and tables required in mysql.
+   - (Optional) open mysql and run `source db/seeds.sql seeds` in your terminal to populate the database with test data.
 3. Edit MySQL connection properties in the `connection` object on line-13 of `index.js`.
 
 ## Usage
