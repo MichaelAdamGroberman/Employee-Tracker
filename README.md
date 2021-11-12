@@ -32,3 +32,4 @@ The application gives yout the following options:
    ![](assets/sample1.png)
 
 ## Walkthrough Video
+   ![](assets\walkthrough.mov)
