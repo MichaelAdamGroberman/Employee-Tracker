@@ -32,4 +32,4 @@ The application gives yout the following options:
    ![](assets/sample1.png)
 
 ## Walkthrough Video
-   ![](https://github.com/MichaelAdamGroberman/Employee-Tracker/assets/walkthrough.mov)
+   [Link to video](https://github.com/MichaelAdamGroberman/Employee-Tracker/assets/walkthrough.mov)
