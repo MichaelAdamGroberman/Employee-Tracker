@@ -198,43 +198,53 @@ const addEmployee = () => {
   console.clear();
   console.log(chalk.blue.bold('Adding New Employee'));
   console.log(line);
-  inquirer
-    .prompt([
-      {
-        name: 'firstName',
-        type: 'input',
-        message: "What is Employee's First Name?",
-      },
-      {
-        name: 'lastName',
-        type: 'input',
-        message: "What is Employee's Last Name?",
-      },
-      {
-        name: 'roleID',
-        type: 'input',
-        message: "What is the employee's role ID?",
-      },
-      {
-        name: 'managerID',
-        type: 'input',
-        message: "What is the ID of the employee's manager?",
-      },
-    ])
-    .then((answer) => {
-      const firstName = answer.firstName;
-      const lastName = answer.lastName;
-      const roleID = answer.roleID;
-      const managerID = answer.managerID;
-      let sql = `INSERT INTO employee (first_name, last_name, manager_id, role_id) VALUE ("${firstName}}", "${lastName}", "${roleID}","${managerID}")`;
-      connection.query(sql, (error, answer) => {
-        if (error) throw error;
-        console.log(answer);
-        console.log('Employee added to the company database successfully!');
-        console.log(line);
-        viewAllEmployees();
-      });
+  let sqlSelectManager = `SELECT employee.id as 'value', CONCAT(employee.first_name, ' ', employee.last_name) as 'name' FROM employee ORDER BY employee.id ASC`;
+  connection.query(sqlSelectManager, (error, managerList) => {
+    if (error) throw error;
+    let sqlSelectRole = `SELECT role.id as 'value', role.title as 'name' FROM role ORDER BY role.id ASC`;
+    connection.query(sqlSelectRole, (error, roleList) => {
+      if (error) throw error;
+      inquirer
+        .prompt([
+          {
+            name: 'firstName',
+            type: 'input',
+            message: "What is Employee's First Name?",
+          },
+          {
+            name: 'lastName',
+            type: 'input',
+            message: "What is Employee's Last Name?",
+          },
+          {
+            name: 'roleID',
+            type: 'list',
+            message: "What is the employee's role?",
+            choices: roleList,
+          },
+          {
+            name: 'managerID',
+            type: 'list',
+            message: "Who is the employee's manager?",
+            choices: managerList,
+          },
+        ])
+        .then((answer) => {
+          const firstName = answer.firstName;
+          const lastName = answer.lastName;
+          const roleID = answer.roleID;
+          const managerID = answer.managerID;
+          let sql = `INSERT INTO employee (first_name, last_name, manager_id, role_id) VALUE ("${firstName}}", "${lastName}", "${roleID}","${managerID}")`;
+          connection.query(sql, (error, answer) => {
+            if (error) throw error;
+            console.log(answer);
+            console.log('Employee added to the company database successfully!');
+            console.log(line);
+            viewAllEmployees();
+          });
+        });
     });
+  });
 };
 main();
 
