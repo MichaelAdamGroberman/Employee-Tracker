@@ -157,36 +157,41 @@ const addRole = () => {
   console.clear();
   console.log(chalk.blue.bold('Adding New Employee Role'));
   console.log(line);
-  inquirer
-    .prompt([
-      {
-        name: 'title',
-        type: 'input',
-        message: 'What is the Role Title?',
-      },
-      {
-        name: 'salary',
-        type: 'input',
-        message: 'What is the annual salary for this role?',
-      },
-      {
-        name: 'departmentID',
-        type: 'input',
-        message: 'What is the Department ID for this Role?',
-      },
-    ])
-    .then((answer) => {
-      const title = answer.title;
-      const salary = answer.salary;
-      const departmentID = answer.departmentID;
-      let sql = `INSERT INTO role (title, salary, department_id) VALUES ("${title}", "${salary}", "${departmentID}")`;
-      connection.query(sql, answer, (error, response) => {
-        if (error) throw error;
-        console.log(`${answer.title}` + ` department created successfully!`);
-        console.log(line);
-        viewAllRoles();
+  let sqlSelectDepartment = `SELECT department.id as 'value', department.name as 'name' FROM department ORDER BY department.id ASC`;
+  connection.query(sqlSelectDepartment, (error, departmentList) => {
+    if (error) throw error;
+    inquirer
+      .prompt([
+        {
+          name: 'title',
+          type: 'input',
+          message: 'What is the Role Title?',
+        },
+        {
+          name: 'salary',
+          type: 'input',
+          message: 'What is the annual salary for this role?',
+        },
+        {
+          name: 'departmentID',
+          type: 'list',
+          message: 'What is the Department ID for this Role?',
+          choices: departmentList,
+        },
+      ])
+      .then((answer) => {
+        const title = answer.title;
+        const salary = answer.salary;
+        const departmentID = answer.departmentID;
+        let sql = `INSERT INTO role (title, salary, department_id) VALUES ("${title}", "${salary}", "${departmentID}")`;
+        connection.query(sql, answer, (error, response) => {
+          if (error) throw error;
+          console.log(`${answer.title}` + ` department created successfully!`);
+          console.log(line);
+          viewAllRoles();
+        });
       });
-    });
+  });
 };
 // Add new Employee
 const addEmployee = () => {
