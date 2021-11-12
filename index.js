@@ -104,7 +104,7 @@ const viewAllDepartments = () => {
 
 // View all Roles
 const viewAllRoles = () => {
-  let sql = `SELECT role.id, role.title, department.name, role.salary FROM role INNER JOIN department ON role.department_id = department.id`;
+  let sql = `SELECT role.id, role.title, department.name AS 'Department', role.salary FROM role INNER JOIN department ON role.department_id = department.id`;
   connection.query(sql, (error, response) => {
     if (error) throw error;
     console.clear();
@@ -116,7 +116,7 @@ const viewAllRoles = () => {
 };
 // View all Employees
 const viewAllEmployees = () => {
-  let sql = `SELECT employee.id, employee.first_name, employee.last_name, role.title,, department.name, role.salary FROM employee, role, department WHERE department.id = role.department_id AND role.id = employee.role_id ORDER BY employee.id ASC`;
+  let sql = `SELECT e.id, e.first_name, e.last_name, r.title, d.name AS 'Department', r.salary, (SELECT CONCAT(m.first_name, ' ', m.last_name) FROM employee m WHERE e.manager_id = m.id) AS 'manager' FROM employee e, role r, department d WHERE d.id = r.department_id AND r.id = e.id ORDER BY e.id ASC;`;
   connection.query(sql, (error, response) => {
     if (error) throw error;
     console.clear();
