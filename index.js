@@ -233,70 +233,46 @@ const addEmployee = () => {
 };
 main();
 
-// // Update existing employee
-//   const updateEmployeeRole = () => {
-//     let sqlSelectEmployee = `SELECT employee.id, employee.first_name, employee.last_name, role.title, department_id AS 'department', role.salary FROM employee, role, department WHERE department.id = role.department_id AND role.id = employee.role_id ORDER BY employee.id ASC`;
-//   connection.query(sqlSelectEmployee, (error, response) => {
-//     if (error) throw error;
-//     let employeeList = [];
-//     response.forEach(employee => {
-//       employeeList.push(`${employee.id}` `${employee.first_name}` `${employee.last_name}`)
-//     )}
-//   }
-//     let sqlSelectRole = `SELECT role.id, role.title, department.name, role.salary FROM role INNER JOIN department ON role.department_id = department.id`;
-
-//     console.clear();
-//     console.log(chalk.blue.bold('All Employees'));
-//     console.log(line);
-//     console.table(response);
-//     console.log(line);
-//   });
-//   inquirer.prompt([
-//     {
-//       name: 'selectEmployee',
-//       type: 'list',
-//       message: 'Select Employee to update their role:',
-//       choices: employeeList
-//     },
-// };
-//     {
-//       name: 'selectRole',
-//       type: 'list',
-//       message: 'Select new Role to update for Employee',
-//       choices: rolesList
-//     }
-//     ])
-//   }
-//   connection.query(sql, function (err,res) {
-//     if (err) throw err;
-//     let employeeList = [];
-//     response.forEach(employee => {
-//       employeeList.push(`${employee.id}` `${employee.first_name}` `${employee.last_name}`);
-//     });
-//     let sql = `SELECT role.id, role.title FROM role`;
-//     connection.query(sql, function(err,res){
-//       if (err) throw err;
-//       let rolesList = [];
-//       response.forEach(role => {rolesList.push(role.title); });
-
-// .then(answer => {
-//   let selectRole, selectEmployee;
-//   response.forEach((role) => {
-//     if (answer.selectRole === role.title) {
-//         newRoleID = role.id;
-//     }
-// });
-
-// response.forEach(employee => {
-//     if (answer.selectEmployee === `${employee.first_name} ${employee.last_name}`) {
-//     selectEmployee = employee.id }
-// });
-// let sql = `UPDATE employee SET employee.role_id = ? WHERE employee.id = ?`;
-// connection.query(sql, [selectRole,selectEmployee], (err) => {
-//   if (err) throw err;
-//   console.log(line);
-//   console.log("Employee's Role updated successfully");
-//   console.log(line);
-//   main();
-// }
-// );
+// Update existing employee
+const updateEmployee = () => {
+  console.clear();
+  console.log(chalk.blue.bold('Adding New Employee Role'));
+  console.log(line);
+  let sqlSelectEmployee = `SELECT employee.id as 'value', CONCAT(employee.first_name, ' ', employee.last_name) as 'name' FROM employee ORDER BY employee.id ASC`;
+  connection.query(sqlSelectEmployee, (error, employeeList) => {
+    if (error) throw error;
+    let sqlSelectRole = `SELECT role.id as 'value', role.title as 'name' FROM role ORDER BY role.id ASC`;
+    connection.query(sqlSelectRole, (error, roleList) => {
+      if (error) throw error;
+      inquirer
+        .prompt([
+          {
+            name: 'employeeID',
+            type: 'list',
+            message: `Which employee's role do you want to update?`,
+            choices: employeeList,
+          },
+          {
+            name: 'roleID',
+            type: 'list',
+            message: `Which role do you want to assign the selected employee?`,
+            choices: roleList,
+          },
+        ])
+        .then((answers) => {
+          let sqlUpdateEmployeeRole = `UPDATE employee SET role_id=${answers.roleID} WHERE id=${answers.employeeID}`;
+          connection.query(
+            sqlUpdateEmployeeRole,
+            answers,
+            (error, response) => {
+              if (error) throw error;
+              console.log(line);
+              console.log("Employee's Role updated successfully");
+              console.log(line);
+              main();
+            }
+          );
+        });
+    });
+  });
+};
