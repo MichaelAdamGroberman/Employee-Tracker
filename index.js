@@ -116,7 +116,7 @@ const viewAllRoles = () => {
 };
 // View all Employees
 const viewAllEmployees = () => {
-  let sql = `SELECT employee.id, employee.first_name, employee.last_name, role.title, department_id AS 'department', role.salary FROM employee, role, department WHERE department.id = role.department_id AND role.id = employee.role_id ORDER BY employee.id ASC`;
+  let sql = `SELECT employee.id, employee.first_name, employee.last_name, role.title,, department.name, role.salary FROM employee, role, department WHERE department.id = role.department_id AND role.id = employee.role_id ORDER BY employee.id ASC`;
   connection.query(sql, (error, response) => {
     if (error) throw error;
     console.clear();
@@ -184,7 +184,7 @@ const addRole = () => {
         if (error) throw error;
         console.log(`${answer.title}` + ` department created successfully!`);
         console.log(line);
-        viewAllDepartments();
+        viewAllRoles();
       });
     });
 };
@@ -236,7 +236,7 @@ main();
 // Update existing employee
 const updateEmployee = () => {
   console.clear();
-  console.log(chalk.blue.bold('Adding New Employee Role'));
+  console.log(chalk.blue.bold("Update an existing Employee's Role"));
   console.log(line);
   let sqlSelectEmployee = `SELECT employee.id as 'value', CONCAT(employee.first_name, ' ', employee.last_name) as 'name' FROM employee ORDER BY employee.id ASC`;
   connection.query(sqlSelectEmployee, (error, employeeList) => {
