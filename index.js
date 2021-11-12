@@ -221,7 +221,7 @@ const addEmployee = () => {
       const lastName = answer.lastName;
       const roleID = answer.roleID;
       const managerID = answer.managerID;
-      let sql = `INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUE ("${firstName}}", "${lastName}", "${roleID}","${managerID}")`;
+      let sql = `INSERT INTO employee (first_name, last_name, manager_id, role_id) VALUE ("${firstName}}", "${lastName}", "${roleID}","${managerID}")`;
       connection.query(sql, answer, (error, response) => {
         if (error) throw error;
         console.log(answer);
