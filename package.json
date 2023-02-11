@@ -21,7 +21,7 @@
     "figlet": "^1.4.0",
     "inquirer": "^7.1.0",
     "mysql2": "^2.1.0",
-    "nodemon": "^2.0.4"
+    "nodemon": "^2.0.20"
   },
   "bugs": {
     "url": "https://github.com/MichaelAdamGroberman/employee-tracker/issues"
